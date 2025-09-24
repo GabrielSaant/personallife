@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nosso Cantinho Especial</title>
     <style>
-        /* Reset e configurações gerais */
         * {
             margin: 0;
             padding: 0;
@@ -25,11 +24,13 @@
         .container {
             max-width: 900px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             padding: 30px;
+            position: relative;
+            z-index: 1;
         }
         
         header {
@@ -49,6 +50,7 @@
         .subtitle {
             color: #666;
             font-size: 1.2rem;
+            line-height: 1.5;
         }
         
         .buttons-grid {
@@ -73,6 +75,7 @@
             min-height: 120px;
             position: relative;
             overflow: hidden;
+            font-weight: 600;
         }
         
         .emo-btn:hover {
@@ -80,29 +83,10 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         }
         
-        .emo-btn:active {
-            transform: translateY(0);
-        }
-        
-        .emo-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .emo-btn:hover::before {
-            opacity: 1;
-        }
-        
         .emo-icon {
-            font-size: 2rem;
+            font-size: 2.5rem;
             margin-bottom: 10px;
+            filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.1));
         }
         
         #nervosaBtn { 
@@ -138,6 +122,7 @@
             justify-content: center;
             text-align: center;
             transition: all 0.5s ease;
+            border: 2px dashed #ffafbd;
         }
         
         #magicText {
@@ -145,26 +130,28 @@
             color: #666;
             margin-bottom: 20px;
             line-height: 1.6;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        #magicImage {
+        .visual-content {
+            margin: 15px 0;
             max-width: 100%;
-            max-height: 300px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin: 15px 0;
-            display: none;
         }
         
-        #magicSound {
-            width: 100%;
-            max-width: 400px;
+        .emoji-display {
+            font-size: 4rem;
             margin: 15px 0;
-            display: none;
+            animation: bounce 1s infinite alternate;
         }
         
         .surpresa {
             text-align: center;
+            margin-top: 20px;
         }
         
         #surpresaBtn {
@@ -177,6 +164,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            font-weight: 600;
         }
         
         #surpresaBtn:hover {
@@ -191,7 +179,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: -1;
+            z-index: 0;
         }
         
         .heart {
@@ -200,7 +188,8 @@
             height: 20px;
             background: #ff6b6b;
             transform: rotate(45deg);
-            opacity: 0.7;
+            opacity: 0;
+            animation: float 8s linear infinite;
         }
         
         .heart::before, .heart::after {
@@ -224,30 +213,57 @@
         
         .footer {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
             color: #888;
             font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
         }
         
         /* Animações */
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(45deg) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(45deg) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes bounce {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-10px) scale(1.1); }
+        }
+        
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
         
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid #ff6b6b;
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typewriter 3s steps(40, end);
+        }
+        
         .pulse {
             animation: pulse 2s infinite;
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0); }
-        }
-        
-        .float {
-            animation: float 3s ease-in-out infinite;
         }
         
         /* Responsividade */
@@ -263,6 +279,10 @@
             .container {
                 padding: 20px;
             }
+            
+            .emoji-display {
+                font-size: 3rem;
+            }
         }
     </style>
 </head>
@@ -271,27 +291,27 @@
     
     <div class="container">
         <header>
-            <h1 class="float">💖 Nosso Cantinho de Paz</h1>
-            <p class="subtitle">Quando as emoções ficarem intensas, clique em um botão abaixo</p>
+            <h1 id="mainTitle">💖 Nosso Cantinho de Paz</h1>
+            <p class="subtitle">Quando as emoções ficarem intensas, clique em um botão abaixo 💫</p>
         </header>
 
         <div class="buttons-grid">
-            <button class="emo-btn pulse" id="nervosaBtn">
+            <button class="emo-btn" id="nervosaBtn">
                 <span class="emo-icon">😤</span>
                 Estou nervosa!
             </button>
 
-            <button class="emo-btn pulse" id="raivaBtn">
+            <button class="emo-btn" id="raivaBtn">
                 <span class="emo-icon">😠</span>
                 Estou com raiva!
             </button>
 
-            <button class="emo-btn pulse" id="tristeBtn">
+            <button class="emo-btn" id="tristeBtn">
                 <span class="emo-icon">😔</span>
                 Estou triste...
             </button>
 
-            <button class="emo-btn pulse" id="saudadesBtn">
+            <button class="emo-btn" id="saudadesBtn">
                 <span class="emo-icon">💕</span>
                 Estou com saudades!
             </button>
@@ -299,21 +319,20 @@
 
         <div id="magicArea" class="magic-area">
             <p id="magicText">Clique em um botão acima para ver a mágica acontecer! ✨</p>
-            <img id="magicImage" src="" alt="">
-            <audio id="magicSound" controls></audio>
+            <div id="visualContent"></div>
         </div>
 
         <div class="surpresa">
-            <button id="surpresaBtn">💌 Clique para uma surpresa extra</button>
+            <button id="surpresaBtn">💌 Mensagem Especial</button>
         </div>
         
         <div class="footer">
-            Feito com 💖 especialmente para você
+            Feito com 💖 especialmente para você • Sempre que precisar, estarei aqui
         </div>
     </div>
 
     <script>
-        // Recursos para cada emoção
+        // Recursos completamente locais (sem dependências externas)
         const recursos = {
             nervosa: {
                 textos: [
@@ -321,12 +340,10 @@
                     "Lembra daquela vez que rimos até chorar? 😄",
                     "Você é mais forte do que qualquer aborrecimento! 💪",
                     "Que tal uma dança louca para liberar a energia? 💃",
-                    "Tudo vai ficar bem, eu prometo! 🌈"
+                    "Tudo vai ficar bem, eu prometo! 🌈",
+                    "Vamos resolver isso juntos, um passo de cada vez! 👣"
                 ],
-                imagens: [
-                    "https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-                    "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                ]
+                emojis: ["🌈", "💨", "💪", "💃", "😊", "✨"]
             },
             
             raiva: {
@@ -335,12 +352,10 @@
                     "Imagine a raiva saindo como fumaça... poof! 💨",
                     "Você é a pessoa mais incrível que eu conheço! ✨",
                     "Que tal contar até 10 comigo? 1... 2... 3... 🔢",
-                    "Nada é mais importante do que sua paz interior! 🕊️"
+                    "Nada é mais importante do que sua paz interior! 🕊️",
+                    "Vamos transformar essa raiva em energia positiva! ⚡"
                 ],
-                imagens: [
-                    "https://images.unsplash.com/photo-1518481852459-0bbc655ae65b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-                    "https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                ]
+                emojis: ["👊", "💨", "✨", "🕊️", "⚡", "💥"]
             },
             
             triste: {
@@ -349,12 +364,10 @@
                     "Lembra que toda tempestade passa... 🌈",
                     "Você merece todo o amor do mundo! 💖",
                     "Que tal um abraço virtual bem apertado? 🫂",
-                    "Seus sentimentos são válidos e importantes! 💫"
+                    "Seus sentimentos são válidos e importantes! 💫",
+                    "Você não está sozinha, estou com você! 💕"
                 ],
-                imagens: [
-                    "https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-                    "https://images.unsplash.com/photo-1512101176959-c557f3516787?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                ]
+                emojis: ["🤗", "🌈", "💖", "🫂", "💫", "💕"]
             },
             
             saudades: {
@@ -363,159 +376,54 @@
                     "Logo estaremos juntinhos de novo! 🥰",
                     "Pensa no nosso próximo abraço... 🤗",
                     "Meu coração está aí com você! 💓",
-                    "Cada segundo longe de você é um segundo a mais de saudade! ⏳"
+                    "Cada segundo longe é um segundo a mais de saudade! ⏳",
+                    "Nossa conexão é mais forte que qualquer distância! 🔗"
                 ],
-                imagens: [
-                    "https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-                    "https://images.unsplash.com/photo-1512101176959-c557f3516787?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                ]
+                emojis: ["😔", "🥰", "🤗", "💓", "⏳", "🔗"]
             }
         };
 
         // Elementos DOM
         const magicText = document.getElementById('magicText');
-        const magicImage = document.getElementById('magicImage');
-        const magicSound = document.getElementById('magicSound');
+        const visualContent = document.getElementById('visualContent');
         const magicArea = document.getElementById('magicArea');
         const heartsContainer = document.getElementById('heartsContainer');
+        const mainTitle = document.getElementById('mainTitle');
 
         // Função para criar corações flutuantes
         function createHearts() {
-            for (let i = 0; i < 15; i++) {
-                const heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDelay = Math.random() * 5 + 's';
-                heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                heartsContainer.appendChild(heart);
-            }
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            
+            // Posição aleatória na parte inferior
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.bottom = '-20px';
+            
+            // Tamanho aleatório
+            const size = Math.random() * 20 + 10;
+            heart.style.width = size + 'px';
+            heart.style.height = size + 'px';
+            
+            // Cor aleatória em tons de vermelho/rosa
+            const colors = ['#ff6b6b', '#ff8e8e', '#ffafbd', '#ffd1dc'];
+            heart.style.background = colors[Math.floor(Math.random() * colors.length)];
+            heart.style.opacity = Math.random() * 0.7 + 0.3;
+            
+            // Duração aleatória da animação
+            heart.style.animationDuration = (Math.random() * 10 + 5) + 's';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            
+            heartsContainer.appendChild(heart);
+            
+            // Remover após a animação
+            setTimeout(() => {
+                heart.remove();
+            }, 15000);
         }
+
+        // Criar corações continuamente
+        setInterval(createHearts, 800);
 
         // Função para mostrar conteúdo baseado na emoção
         function showContent(emotion) {
-            const recurso = recursos[emotion];
-            const textoAleatorio = recurso.textos[Math.floor(Math.random() * recurso.textos.length)];
-            
-            // Atualizar texto
-            magicText.textContent = textoAleatorio;
-            
-            // Mostrar imagem
-            magicImage.style.display = 'block';
-            const imgAleatoria = recurso.imagens[Math.floor(Math.random() * recurso.imagens.length)];
-            magicImage.src = imgAleatoria;
-            
-            // Esconder áudio
-            magicSound.style.display = 'none';
-            
-            // Efeito visual na área mágica
-            magicArea.style.background = 'linear-gradient(135deg, #fff, #f9f9f9)';
-            setTimeout(() => {
-                magicArea.style.background = 'white';
-            }, 500);
-            
-            // Criar corações extras
-            createExtraHearts();
-        }
-
-        // Função para criar corações extras ao clicar
-        function createExtraHearts() {
-            for (let i = 0; i < 5; i++) {
-                const heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.top = Math.random() * 100 + 'vh';
-                heart.style.animation = 'none';
-                heart.style.opacity = '0.9';
-                
-                document.body.appendChild(heart);
-                
-                // Animação personalizada
-                let posX = Math.random() * window.innerWidth;
-                let posY = window.innerHeight;
-                let speed = Math.random() * 2 + 1;
-                
-                const fall = setInterval(() => {
-                    posY -= speed;
-                    heart.style.top = posY + 'px';
-                    heart.style.left = posX + 'px';
-                    
-                    if (posY < -50) {
-                        clearInterval(fall);
-                        heart.remove();
-                    }
-                }, 50);
-            }
-        }
-
-        // Event listeners para os botões
-        document.getElementById('nervosaBtn').addEventListener('click', function() {
-            showContent('nervosa');
-        });
-
-        document.getElementById('raivaBtn').addEventListener('click', function() {
-            showContent('raiva');
-        });
-
-        document.getElementById('tristeBtn').addEventListener('click', function() {
-            showContent('triste');
-        });
-
-        document.getElementById('saudadesBtn').addEventListener('click', function() {
-            showContent('saudades');
-        });
-
-        // Botão surpresa extra
-        document.getElementById('surpresaBtn').addEventListener('click', function() {
-            const mensagens = [
-                "Você é a pessoa mais incrível do mundo! 🌎",
-                "Meu dia fica melhor só de pensar em você! ☀️",
-                "Obrigado por ser exatamente quem você é! 💖",
-                "Nada me faz mais feliz do que te ver feliz! 😊",
-                "Cada detalhe seu me encanta! ✨",
-                "Seu sorriso é minha fonte de energia! ⚡",
-                "Você torna tudo mais especial! 🌟",
-                "Eu te amo mais do que palavras podem expressar! 💞"
-            ];
-            
-            const mensagemAleatoria = mensagens[Math.floor(Math.random() * mensagens.length)];
-            magicText.textContent = mensagemAleatoria;
-            magicImage.style.display = 'none';
-            magicSound.style.display = 'none';
-            
-            // Efeito especial para a surpresa
-            magicArea.style.background = 'linear-gradient(135deg, #ffafbd, #ffc3a0)';
-            magicArea.style.color = 'white';
-            
-            // Criar muitos corações
-            for (let i = 0; i < 20; i++) {
-                setTimeout(() => createExtraHearts(), i * 100);
-            }
-            
-            setTimeout(() => {
-                magicArea.style.background = 'white';
-                magicArea.style.color = 'inherit';
-            }, 3000);
-        });
-
-        // Inicializar corações de fundo
-        createHearts();
-        
-        // Efeito de digitação no título
-        const title = document.querySelector('h1');
-        const originalText = title.textContent;
-        title.textContent = '';
-        
-        let i = 0;
-        const typeWriter = () => {
-            if (i < originalText.length) {
-                title.textContent += originalText.charAt(i);
-                i++;
-                setTimeout(typeWriter, 100);
-            }
-        };
-        
-        // Iniciar efeito de digitação após um breve delay
-        setTimeout(typeWriter, 500);
-    </script>
-</body>
-</html>
+            const recur
