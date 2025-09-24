@@ -5,143 +5,134 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nosso Cantinho Especial</title>
   <style>
-    /* TODO: Seu CSS completo vai aqui (já está perfeito, você pode colar tudo que me mandou até </style>) */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      background: #fff;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #ff6b6b;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin-bottom: 40px;
+    }
+
+    .buttons a {
+      text-decoration: none;
+    }
+
+    .emo-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #ffe1e1, #ffc3a0);
+      color: #d1455d;
+      font-weight: bold;
+      font-size: 1rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .emo-btn:hover {
+      transform: translateY(-5px);
+    }
+
+    .emo-icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .magic-box {
+      background: #fff8f8;
+      padding: 25px;
+      border: 2px dashed #ffa8b0;
+      border-radius: 15px;
+      min-height: 150px;
+      margin-bottom: 30px;
+      color: #444;
+      font-size: 1.2rem;
+      display: none;
+    }
+
+    .magic-box:target {
+      display: block;
+      animation: fadein 1s ease-in-out;
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .footer {
+      font-size: 0.9rem;
+      color: #aaa;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="hearts" id="heartsContainer"></div>
-
   <div class="container">
-    <header>
-      <h1 id="mainTitle">💖 Nosso Cantinho de Paz</h1>
-      <p class="subtitle">Quando as emoções ficarem intensas, clique em um botão abaixo 💫</p>
-    </header>
+    <h1>💖 Nosso Cantinho de Paz</h1>
+    <p class="subtitle">Quando as emoções ficarem intensas, clique em um botão abaixo 💫</p>
 
-    <div class="buttons-grid">
-      <button class="emo-btn" id="nervosaBtn">
-        <span class="emo-icon">😤</span>
-        Estou nervosa!
-      </button>
-      <button class="emo-btn" id="raivaBtn">
-        <span class="emo-icon">😠</span>
-        Estou com raiva!
-      </button>
-      <button class="emo-btn" id="tristeBtn">
-        <span class="emo-icon">😔</span>
-        Estou triste...
-      </button>
-      <button class="emo-btn" id="saudadesBtn">
-        <span class="emo-icon">💕</span>
-        Estou com saudades!
-      </button>
+    <div class="buttons">
+      <a href="#emo1"><div class="emo-btn"><div class="emo-icon">😤</div>Estou nervosa</div></a>
+      <a href="#emo2"><div class="emo-btn"><div class="emo-icon">😠</div>Com raiva</div></a>
+      <a href="#emo3"><div class="emo-btn"><div class="emo-icon">😔</div>Triste...</div></a>
+      <a href="#emo4"><div class="emo-btn"><div class="emo-icon">💕</div>Com saudades</div></a>
+      <a href="#emo5"><div class="emo-btn"><div class="emo-icon">💌</div>Mensagem especial</div></a>
     </div>
 
-    <div id="magicArea" class="magic-area">
-      <p id="magicText">Clique em um botão acima para ver a mágica acontecer! ✨</p>
-      <div id="visualContent"></div>
-    </div>
+    <!-- Mensagens -->
+    <div id="emo1" class="magic-box">Respira fundo... você está no controle! 💨💪</div>
+    <div id="emo2" class="magic-box">A raiva passa, mas sua paz vale mais. 🕊️✨</div>
+    <div id="emo3" class="magic-box">Você não está sozinha. 💖 Aqui é um abraço virtual 🫂</div>
+    <div id="emo4" class="magic-box">Logo estaremos juntinhos de novo. 🥰💓</div>
+    <div id="emo5" class="magic-box">Você é amada, especial e muito importante! 💌💖</div>
 
-    <div class="surpresa">
-      <button id="surpresaBtn">💌 Mensagem Especial</button>
-    </div>
-
-    <div class="footer">
-      Feito com 💖 especialmente para você • Sempre que precisar, estarei aqui
-    </div>
+    <div class="footer">Feito com 💖 para iluminar seus dias</div>
   </div>
-
-  <script>
-    const recursos = {
-      nervosa: {
-        textos: [
-          "Respira fundo comigo... 3... 2... 1... 💨",
-          "Lembra daquela vez que rimos até chorar? 😄",
-          "Você é mais forte do que qualquer aborrecimento! 💪",
-          "Que tal uma dança louca para liberar a energia? 💃",
-          "Tudo vai ficar bem, eu prometo! 🌈",
-          "Vamos resolver isso juntos, um passo de cada vez! 👣"
-        ],
-        emojis: ["🌈", "💨", "💪", "💃", "😊", "✨"]
-      },
-      raiva: {
-        textos: [
-          "RAIVA É PERMITIDA! Mas que tal esmagar virtualmente? 👊",
-          "Imagine a raiva saindo como fumaça... poof! 💨",
-          "Você é a pessoa mais incrível que eu conheço! ✨",
-          "Que tal contar até 10 comigo? 1... 2... 3... 🔢",
-          "Nada é mais importante do que sua paz interior! 🕊️",
-          "Vamos transformar essa raiva em energia positiva! ⚡"
-        ],
-        emojis: ["👊", "💨", "✨", "🕊️", "⚡", "💥"]
-      },
-      triste: {
-        textos: [
-          "Estou aqui por você, sempre! 🤗",
-          "Lembra que toda tempestade passa... 🌈",
-          "Você merece todo o amor do mundo! 💖",
-          "Que tal um abraço virtual bem apertado? 🫂",
-          "Seus sentimentos são válidos e importantes! 💫",
-          "Você não está sozinha, estou com você! 💕"
-        ],
-        emojis: ["🤗", "🌈", "💖", "🫂", "💫", "💕"]
-      },
-      saudades: {
-        textos: [
-          "Eu também estou com saudades! 😔💕",
-          "Logo estaremos juntinhos de novo! 🥰",
-          "Pensa no nosso próximo abraço... 🤗",
-          "Meu coração está aí com você! 💓",
-          "Cada segundo longe é um segundo a mais de saudade! ⏳",
-          "Nossa conexão é mais forte que qualquer distância! 🔗"
-        ],
-        emojis: ["😔", "🥰", "🤗", "💓", "⏳", "🔗"]
-      }
-    };
-
-    const magicText = document.getElementById('magicText');
-    const visualContent = document.getElementById('visualContent');
-    const heartsContainer = document.getElementById('heartsContainer');
-
-    function createHearts() {
-      const heart = document.createElement('div');
-      heart.classList.add('heart');
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.bottom = '-20px';
-      const size = Math.random() * 20 + 10;
-      heart.style.width = size + 'px';
-      heart.style.height = size + 'px';
-      const colors = ['#ff6b6b', '#ff8e8e', '#ffafbd', '#ffd1dc'];
-      heart.style.background = colors[Math.floor(Math.random() * colors.length)];
-      heart.style.opacity = Math.random() * 0.7 + 0.3;
-      heart.style.animationDuration = (Math.random() * 10 + 5) + 's';
-      heart.style.animationDelay = Math.random() * 2 + 's';
-      heartsContainer.appendChild(heart);
-      setTimeout(() => heart.remove(), 15000);
-    }
-
-    setInterval(createHearts, 800);
-
-    function showContent(emotionKey) {
-      const recurso = recursos[emotionKey];
-      if (!recurso) return;
-
-      const texto = recurso.textos[Math.floor(Math.random() * recurso.textos.length)];
-      const emoji = recurso.emojis[Math.floor(Math.random() * recurso.emojis.length)];
-
-      magicText.innerHTML = texto;
-      visualContent.innerHTML = `<div class="emoji-display">${emoji}</div>`;
-    }
-
-    document.getElementById('nervosaBtn').addEventListener('click', () => showContent('nervosa'));
-    document.getElementById('raivaBtn').addEventListener('click', () => showContent('raiva'));
-    document.getElementById('tristeBtn').addEventListener('click', () => showContent('triste'));
-    document.getElementById('saudadesBtn').addEventListener('click', () => showContent('saudades'));
-
-    // Botão surpresa
-    document.getElementById('surpresaBtn').addEventListener('click', () => {
-      magicText.innerHTML = "💌 Você é amada, especial e nunca está sozinha! Estou sempre aqui por você. 💖";
-      visualContent.innerHTML = `<div class="emoji-display pulse">💖💖💖</div>`;
-    });
-  </script>
 </body>
 </html>
